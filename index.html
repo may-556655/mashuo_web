@@ -1,0 +1,4126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马烁的个人作品集</title>
+    <!-- 引入字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入动画库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['"Noto Serif SC"', 'serif'],
+                        'sans': ['"Noto Sans SC"', 'sans-serif'],
+                        'handwriting': ['"Dancing Script"', 'cursive']
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- 粒子效果JS库 -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #FFB6C1; /* 樱花粉 */
+            --secondary-color: #89CFF0; /* 天空蓝 */
+            --accent-color: #F4A460; /* 暖阳金 */
+            --bg-color: #FFF5F5; /* 柔和的粉白色 */
+            --text-color: #2D3748;
+            --bg-gradient: linear-gradient(135deg, #FFE6E6 0%, #E6F0FF 100%);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .title {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 画廊样式 */
+        .art-gallery {
+            padding: 4rem 0;
+            background: linear-gradient(120deg, rgba(255,218,185,0.2) 0%, rgba(255,218,185,0.1) 35%, rgba(255,182,193,0.15) 100%);
+            overflow: hidden;
+        }
+
+        .gallery-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .gallery-wrapper {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 2rem;
+            padding: 1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .artwork-item {
+            flex: 0 0 300px;
+            margin: 0 1rem;
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            object-fit: cover;
+        }
+
+        .artwork-image:not(.artwork-image--contain) {
+            object-fit: cover;
+        }
+
+        .artwork-image--contain {
+            object-fit: contain !important;
+            background: linear-gradient(90deg, #f5f5f5 0%, #e6e6fa 100%);
+            padding: 1rem;
+            height: 300px !important;
+            width: 100% !important;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .gallery-nav:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .gallery-prev {
+            left: 1rem;
+        }
+
+        .gallery-next {
+            right: 1rem;
+        }
+
+        /* 项目经历卡片样式 - 翻转效果 */
+        .project-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem; /* 调整间距 */
+            margin: 2rem auto; /* 减少外边距 */
+            flex-wrap: wrap;
+            max-width: 1000px; /* 减小最大宽度 */
+        }
+
+        .project-card {
+            width: 360px; /* 缩小项目卡片宽度 */
+            height: 500px; /* 缩小项目卡片高度 */
+            perspective: 1000px;
+            border-radius: 20px;
+            margin: 0 0.5rem; /* 减小外边距 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .project-card:hover .project-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-front, 
+        .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .project-card-front {
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .project-year {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255, 182, 193, 0.8);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .project-card-back {
+            background-color: #f8f9fa;
+            transform: rotateY(180deg);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 20px;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            border-radius: 20px;
+            background: transparent;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            display: block;
+            background: transparent;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-color);
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .project-info {
+            margin-bottom: 0.5rem;
+            flex: 1;
+        }
+
+        .project-section {
+            margin-bottom: 0.75rem;
+        }
+
+        .project-section-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .project-section p {
+            margin: 0;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        .node-3-details .skill-tag:hover {
+            background: rgba(147,112,219,0.15);
+            color: #9B59B6;
+            border-color: rgba(147,112,219,0.5);
+        }
+
+        .detail-link-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .more-details {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            background-color: transparent;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.2rem 0;
+            border: none;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .more-details:hover {
+            background-color: transparent;
+            color: #ff8fa3;
+            transform: translateX(2px);
+        }
+
+        .more-details .arrow-icon {
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .more-details:hover .arrow-icon {
+            transform: translateX(3px);
+        }
+
+        .details-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 图片轮播容器 */
+        .details-gallery {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 控制图片轮播 */
+        .details-gallery-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 图片样式 */
+        .details-gallery-img {
+            max-width: 100%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .details-gallery-img.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 导航按钮 */
+        .gallery-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-nav-btn:hover {
+            background: rgba(255, 182, 193, 0.5);
+        }
+
+        .gallery-prev-btn {
+            left: 20px;
+        }
+
+        .gallery-next-btn {
+            right: 20px;
+        }
+
+        /* 导航指示点 */
+        .gallery-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .details-modal .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .details-modal .close-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .project-card {
+                width: 320px;
+                height: 450px;
+            }
+            
+            .gallery-nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .gallery-prev-btn {
+                left: 10px;
+            }
+            
+            .gallery-next-btn {
+                right: 10px;
+            }
+        }
+
+        /* 项目详情模态框 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        .skill-tag:hover {
+            background: rgba(255, 182, 193, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+                padding: 0 2rem;
+            }
+            
+            .project-card {
+                min-height: 300px;
+            }
+            
+            .gallery-nav {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        /* 实践经历时间轴样式优化 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            opacity: 0.3;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline-circle {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .timeline-circle img {
+                width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content {
+            position: absolute;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            left: calc(50% + 80px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            right: calc(50% + 80px);
+        }
+
+        .timeline-circle:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        .timeline-circle:hover + .timeline-content,
+        .timeline-content:hover {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .timeline-date {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 40px;
+            }
+
+            .timeline-circle {
+                left: 40px;
+                transform: translateX(-50%);
+            }
+
+            .timeline-content {
+                width: calc(100% - 100px);
+                left: 100px !important;
+                right: auto !important;
+            }
+        }
+
+        /* 项目经历卡片样式修改为四边形 */
+        .project-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .project-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-content {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .project-circle:hover {
+            transform: scale(1.05);
+        }
+
+        .project-circle:hover + .project-content,
+        .project-content:hover {
+            opacity: 1;
+            visibility: visible;
+            top: calc(100% + 20px);
+        }
+
+        /* 实践经历时间轴补充样式 */
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-top: -40px;
+        }
+
+        .timeline-role {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+       
+
+        /* 调整项目和实践经历部分的间距 */
+        #projects {
+            padding: 4rem 0 2rem 0;
+            /* margin-bottom: 3rem; */
+            background: linear-gradient(135deg, rgba(255,246,246,0.85) 0%, #F5F5F5 100%);
+        }
+
+        #experience {
+            padding: 5rem 0 4rem 0;
+            background: linear-gradient(120deg, rgba(230,240,255,0.7) 0%, #F5F5F5 100%);
+            position: relative;
+            overflow: hidden;
+            /* margin-bottom: 2rem; */
+        }
+
+        /* 移除之前的多余样式 */
+        .project-circle,
+        .project-content,
+        .image-wrapper,
+        .rounded-container {
+            display: none;
+        }
+
+        /* 项目经历标题部分 */
+        #projects h2 {
+            margin-bottom: 3rem;
+        }
+
+        .artwork-image {
+            width: 100%;
+                height: 250px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .artwork-image:not(.artwork-image--contain) {
+            object-fit: cover;
+        }
+
+        .artwork-image--contain {
+            object-fit: contain !important;
+            background: linear-gradient(90deg, #f5f5f5 0%, #e6e6fa 100%);
+            padding: 1rem;
+            height: 250px !important;
+            width: 100% !important;
+        }
+
+        /* 特殊处理最后一张图片 */
+        .artwork-special {
+            object-fit: contain !important;
+            background-color: #ffffff;
+            padding: 10px;
+            height: 320px !important;
+        }
+        
+        .artwork-item-special {
+            flex: 0 0 320px;
+        }
+
+        /* 粒子容器 */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        /* 头像动画 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .avatar-container {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* 鼠标跟随效果 */
+        .cursor-glow {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,182,193,0.3) 0%, rgba(245,245,245,0) 70%);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: overlay;
+        }
+
+        /* 校园碎片(原实践经历)部分样式重构 */
+        
+        /* 道路时间线基础样式 */
+        .road-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px 0 160px 0;
+            min-height: 760px;
+        }
+        
+        /* 时间线路径元素 */
+        .timeline-path {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='900' height='800' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M450,0 C500,200 400,400 500,600 C550,700 450,800 450,800' stroke-width='5' stroke='url(%23grad)' fill='none' stroke-linecap='round' stroke-dasharray='5,10' opacity='0.7'/%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,182,193,0.7)'/%3E%3Cstop offset='50%25' stop-color='rgba(244,164,96,0.7)'/%3E%3Cstop offset='100%25' stop-color='rgba(147,112,219,0.7)'/%3E%3C/linearGradient%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* 时间线上的年份标记 */
+        .timeline-year {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        
+        .timeline-year-2017 {
+            left: 45%;
+            top: 120px;
+        }
+        
+        .timeline-year-2019 {
+            right: 45%;
+            top: 320px;
+        }
+        
+        .timeline-year-2021 {
+            left: 44%;
+            top: 520px;
+        }
+        
+        .timeline-year-2023 {
+            right: 44%;
+            top: 720px;
+        }
+
+        /* 更新时间轴连接线样式 */
+        .curved-timeline::before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            background: linear-gradient(to bottom, rgba(255, 182, 193, 0.8), rgba(244, 164, 96, 0.8), rgba(147, 112, 219, 0.8));
+            top: 80px;
+            height: 520px; /* 增加高度确保覆盖所有节点 */
+            left: 50%;
+            margin-left: -2.5px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,182,193,0.5);
+            z-index: 1;
+            opacity: 1; /* 提高不透明度 */
+        }
+        
+        /* 时间线上流动的光粒子效果 */
+        .curved-timeline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='3' fill='rgba(255,255,255,0.5)'/%3E%3C/svg%3E");
+            background-size: 20px 20px;
+            animation: timelineParticles 15s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        @keyframes timelineParticles {
+            0% { background-position: 0 0; }
+            100% { background-position: 500px 500px; }
+        }
+        
+        /* 连接节点的过渡元素 */
+        .node-connector {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 5; /* 提高层级确保可见 */
+            opacity: 1;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .connector-1-2 {
+            left: 49%;
+            top: 270px;
+            animation: floatAnimation 4s ease-in-out infinite;
+        }
+        
+        .connector-2-3 {
+            left: 49%;
+            top: 525px;
+            animation: floatAnimation 4s ease-in-out infinite 1s;
+        }
+        
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* 脚印样式 */
+        .footprint {
+            position: absolute;
+            width: 24px;
+            height: 48px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(255,182,193,0.5)" stroke-width="2"><path d="M12 2C8 2 4 6 4 10c0 4 4 12 8 12s8-8 8-12c0-4-4-8-8-8z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: 2;
+            animation: footprintPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes footprintPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .footprint-1 {
+            left: 43%;
+            top: 120px;
+            transform: rotate(-25deg);
+        }
+
+        .footprint-2 {
+            left: 57%;
+            top: 220px;
+            transform: rotate(20deg);
+        }
+
+        .footprint-3 {
+            left: 45%;
+            top: 320px;
+            transform: rotate(-15deg);
+        }
+
+        .footprint-4 {
+            left: 58%;
+            top: 420px;
+            transform: rotate(25deg);
+        }
+
+        .footprint-5 {
+            left: 42%;
+            top: 520px;
+            transform: rotate(-25deg);
+        }
+
+        .footprint-6 {
+            left: 56%;
+            top: 620px;
+            transform: rotate(15deg);
+        }
+
+        /* 时间节点样式 - 徽章设计 */
+        .timeline-node {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            overflow: visible;
+            z-index: 4;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+        }
+        
+        .node-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid rgba(255,255,255,0.9);
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.05), inset 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .node-badge {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            transform: translateZ(0);
+        }
+        
+        /* 修复节点图片显示问题 */
+        .node-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1.05);
+            will-change: transform, filter;
+            background-color: #ffffff;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-node.node-1 .node-badge img {
+            object-position: center;
+            object-fit: contain; /* 确保图片完整显示 */
+            padding: 15px; /* 增加内边距 */
+            background-color: white; /* 确保背景为白色 */
+            margin: 0; /* 重置可能的外边距 */
+        }
+        
+        .timeline-node.node-2 .node-badge img {
+            object-position: center;
+        }
+        
+        .timeline-node.node-3 .node-badge img {
+            object-position: center;
+        }
+        
+        .node-badge-icon {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 24px;
+            height: 24px;
+            z-index: 5;
+            transition: all 0.4s ease;
+            opacity: 0.9;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        /* 节点反光效果 */
+        .node-reflection {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: linear-gradient(
+                135deg, 
+                rgba(255,255,255,0.6) 0%, 
+                rgba(255,255,255,0) 40%, 
+                rgba(255,255,255,0) 60%, 
+                rgba(255,255,255,0.4) 100%
+            );
+            pointer-events: none;
+            z-index: 6;
+            opacity: 0.7;
+            border-radius: 50%;
+            transition: all 0.8s ease;
+            transform: translateY(-40%) rotate(25deg);
+        }
+        
+        /* 徽章悬停效果 */
+        .timeline-node:hover, 
+        .timeline-node:focus {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .timeline-node:hover .node-badge img,
+        .timeline-node:focus .node-badge img {
+            filter: brightness(1.1) contrast(1.1);
+            transform: scale(1);
+        }
+        
+        .timeline-node:hover .node-reflection,
+        .timeline-node:focus .node-reflection {
+            opacity: 0.8;
+            transform: translateY(0%) rotate(35deg);
+        }
+        
+        .timeline-node:hover .node-badge-icon,
+        .timeline-node:focus .node-badge-icon {
+            transform: scale(1.2);
+        }
+        
+        /* 徽章光晕效果 */
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .timeline-node.node-1::before {
+            background: radial-gradient(circle, rgba(255,182,193,0.6) 0%, rgba(255,182,193,0) 70%);
+        }
+        
+        .timeline-node.node-2::before {
+            background: radial-gradient(circle, rgba(244,164,96,0.6) 0%, rgba(244,164,96,0) 70%);
+        }
+        
+        .timeline-node.node-3::before {
+            background: radial-gradient(circle, rgba(147,112,219,0.6) 0%, rgba(147,112,219,0) 70%);
+        }
+        
+        .timeline-node:hover::before,
+        .timeline-node:focus::before {
+            opacity: 1;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+        }
+        
+        /* 徽章波纹效果 */
+        .timeline-node::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.6);
+            z-index: -2;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .timeline-node.node-1::after {
+            border-color: rgba(255,182,193,0.6);
+        }
+        
+        .timeline-node.node-2::after {
+            border-color: rgba(244,164,96,0.6);
+        }
+        
+        .timeline-node.node-3::after {
+            border-color: rgba(147,112,219,0.6);
+        }
+        
+        .timeline-node:hover::after,
+        .timeline-node:focus::after {
+            opacity: 0.8;
+            transform: scale(1.15);
+            animation: pulseRing 4s infinite;
+        }
+        
+        @keyframes pulseRing {
+            0% { transform: scale(1.15); opacity: 0.8; }
+            70% { transform: scale(1.3); opacity: 0.3; }
+            100% { transform: scale(1.15); opacity: 0.8; }
+        }
+        
+        /* 节点位置 - S形曲线上的位置 */
+        .node-1 {
+            top: 90px;
+            left: 50%;
+        }
+
+        .node-2 {
+            top: 340px;
+            left: 50%;
+        }
+
+        .node-3 {
+            top: 590px;
+            left: 50%;
+        }
+
+        /* "总"部分的节点信息样式 - 改为直接显示在圆形四周 */
+        .node-info {
+            position: absolute;
+            text-align: center;
+            z-index: 3;
+            transition: all 0.5s ease;
+            transform: translateY(0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 220px;
+            /* 移除背景和边框相关样式 */
+            background-color: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .node-info:hover {
+            transform: translateY(-5px);
+            background-color: transparent;
+        }
+
+        .node-1-info {
+            left: calc(50% + 100px);
+            top: 110px; /* 向上调整位置 */
+        }
+
+        .node-2-info {
+            right: calc(50% + 100px);
+            top: 360px; /* 向上调整位置 */
+        }
+
+        .node-3-info {
+            left: calc(50% + 100px);
+            top: 610px; /* 向上调整位置 */
+        }
+
+        .node-year {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .node-1-info .node-year {
+            background: linear-gradient(135deg, #FFB6C1, #FF8A8A);
+        }
+
+        .node-2-info .node-year {
+            background: linear-gradient(135deg, #F4A460, #F08080);
+        }
+
+        .node-3-info .node-year {
+            background: linear-gradient(135deg, #8A2BE2, #9370DB);
+        }
+
+        .node-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            letter-spacing: 0.5px;
+        }
+        
+        .node-subtitle {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.4;
+            margin-top: 2px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            letter-spacing: 0.2px;
+        }
+
+        .node-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            bottom: -10px;
+            right: -10px;
+            opacity: 0.2;
+            transition: all 0.4s ease;
+        }
+        
+        .node-1-info .node-decoration {
+            background: radial-gradient(circle, #FFB6C1 0%, rgba(255,182,193,0) 70%);
+        }
+        
+        .node-2-info .node-decoration {
+            background: radial-gradient(circle, #F4A460 0%, rgba(244,164,96,0) 70%);
+        }
+        
+        .node-3-info .node-decoration {
+            background: radial-gradient(circle, #9370DB 0%, rgba(147,112,219,0) 70%);
+        }
+        
+        .node-info:hover .node-decoration {
+            transform: scale(3);
+            opacity: 0.1;
+        }
+
+        /* 分部分详情样式 */
+        .node-details {
+            position: absolute;
+            width: 350px;
+            height: auto;
+            min-height: 320px;
+            max-height: 400px;
+            padding: 25px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.15),
+                0 5px 15px rgba(0,0,0,0.05),
+                inset 0 0 0 1px rgba(255,255,255,0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+            transform: scale(0.8) translateY(20px);
+            overflow: hidden;
+        }
+
+        .node-1-details {
+            left: calc(50% - 420px);
+            top: 20px;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        .node-2-details {
+            right: calc(50% - 420px);
+            top: 270px;
+            border: 1px solid rgba(244, 164, 96, 0.3);
+        }
+
+        .node-3-details {
+            left: calc(50% - 420px);
+            top: 520px;
+            border: 1px solid rgba(147, 112, 219, 0.3);
+        }
+
+        .timeline-node:hover + .node-info + .node-details,
+        .timeline-node:focus + .node-info + .node-details,
+        .node-details:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        /* 详情内容样式 */
+        .details-content {
+            position: relative;
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 15px 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .details-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+
+        .details-content::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        /* 详情角色标题 */
+        .details-role {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+            letter-spacing: 0.8px;
+            color: #333;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        }
+        
+        .node-1-details .details-role {
+            color: #FF8A8A;
+        }
+        
+        .node-2-details .details-role {
+            color: #F08080;
+        }
+        
+        .node-3-details .details-role {
+            color: #9370DB;
+        }
+        
+        /* 详情描述文本 */
+        .details-desc {
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .details-desc::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.5;
+        }
+        
+        /* ACM碎片详情特定样式 */
+        .details-sections {
+            display: flex;
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .details-section {
+            flex: 1;
+            padding: 0 10px;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #555;
+            letter-spacing: 0.3px;
+        }
+        
+        .section-divider {
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+            margin: 0 10px;
+        }
+        
+        .details-visual {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .visual-icon, .badge-icon {
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.5);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .visual-icon:hover, .badge-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.8);
+        }
+        
+        /* CHFS碎片详情特定样式 */
+        .details-radial {
+            width: 100%;
+            margin: 10px 0 20px;
+            position: relative;
+            height: 180px;
+        }
+        
+        .radial-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .radial-highlight {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #F08080;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .radial-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .radial-items {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .radial-item {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .radial-item:hover {
+            transform: scale(1.1);
+        }
+        
+        .item-1 {
+            top: 20%;
+            left: 15%;
+        }
+        
+        .item-2 {
+            top: 75%;
+            left: 20%;
+        }
+        
+        .item-3 {
+            top: 75%;
+            right: 20%;
+        }
+        
+        .item-4 {
+            top: 20%;
+            right: 15%;
+        }
+        
+        .item-icon {
+            margin-right: 6px;
+            background: rgba(244,164,96,0.1);
+            padding: 5px;
+            border-radius: 50%;
+        }
+        
+        .item-text {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* 经济学碎片详情特定样式 */
+        .academic-layout {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .paper-title {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .paper-title h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #444;
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .journal-badge {
+            display: flex;
+            align-items: center;
+            background: rgba(147,112,219,0.05);
+            padding: 5px 8px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .journal-badge:hover {
+            background: rgba(147,112,219,0.1);
+            transform: scale(1.05);
+        }
+        
+        .journal-badge span {
+            font-size: 0.75rem;
+            color: #9370DB;
+            margin-left: 5px;
+            font-weight: 500;
+        }
+        
+        .research-methods {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        
+        .method-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .method-item:hover {
+            background: rgba(147,112,219,0.05);
+            transform: translateY(-3px);
+        }
+        
+        .method-icon {
+            margin-bottom: 5px;
+        }
+        
+        .method-item span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .research-finding {
+            background: rgba(147,112,219,0.05);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid rgba(147,112,219,0.3);
+        }
+        
+        .finding-summary {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* 技能标签样式 */
+        .details-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+            padding: 0;
+        }
+
+        .details-tags .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #555;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+
+        .node-1-details .details-tags .skill-tag {
+            border-color: rgba(255,182,193,0.3);
+            background: rgba(255,182,193,0.05);
+        }
+
+        .node-1-details .details-tags .skill-tag:hover {
+            background: rgba(255,182,193,0.15);
+            color: #FF6B6B;
+            border-color: rgba(255,182,193,0.5);
+        }
+
+        .node-2-details .details-tags .skill-tag {
+            border-color: rgba(244,164,96,0.3);
+            background: rgba(244,164,96,0.05);
+        }
+
+        .node-2-details .details-tags .skill-tag:hover {
+            background: rgba(244,164,96,0.15);
+            color: #E67E22;
+            border-color: rgba(244,164,96,0.5);
+        }
+
+        .node-3-details .details-tags .skill-tag {
+            border-color: rgba(147,112,219,0.3);
+            background: rgba(147,112,219,0.05);
+        }
+
+        .node-3-details .details-tags .skill-tag:hover {
+            background: rgba(147,112,219,0.15);
+            color: #9B59B6;
+            border-color: rgba(147,112,219,0.5);
+        }
+
+        /* 徽章脉冲点击效果 */
+        @keyframes nodePulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.8); }
+            70% { box-shadow: 0 0 0 15px rgba(255,255,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+        }
+        
+        .node-pulse {
+            animation: nodePulse 0.5s forwards;
+        }
+        
+        /* 触摸设备交互优化 */
+        @media (hover: none) {
+            .timeline-node::after,
+            .timeline-node::before {
+                display: none;
+            }
+            
+            .timeline-node:hover .node-badge img,
+            .timeline-node:focus .node-badge img {
+                transform: none;
+                filter: brightness(1);
+            }
+            
+            .node-details {
+                transition: all 0.4s ease;
+            }
+        }
+        
+        /* 无障碍焦点样式 */
+        .timeline-node:focus-visible {
+            outline: 3px solid rgba(0,123,255,0.5);
+            outline-offset: 3px;
+        }
+        
+        /* 支持减少动画的用户 */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .road-light,
+            .road-footprint,
+            .node-connector,
+            .timeline-node::before,
+            .timeline-node::after {
+                animation: none !important;
+            }
+            
+            .timeline-node:hover,
+            .timeline-node:focus,
+            .node-info:hover,
+            .skill-tag:hover {
+                transform: none !important;
+            }
+        }
+
+        /* 时间轴连接线样式 */
+        .curved-timeline {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: visible; /* 确保元素内容不会被裁剪 */
+        }
+        
+        /* 详情内部的时间线样式 */
+        .details-timeline {
+            width: 100%;
+            margin: 10px 0 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .timeline-entry {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(255,182,193,0.4), rgba(255,255,255,0.1));
+        }
+        
+        .timeline-entry:last-child::before {
+            display: none;
+        }
+        
+        .timeline-entry:not(:last-child) {
+            padding-bottom: 12px;
+        }
+        
+        .entry-date {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFB6C1, #FF8A8A);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(255,182,193,0.4);
+            z-index: 2;
+        }
+        
+        .entry-content {
+            flex: 1;
+            text-align: left;
+            border-left: 2px solid rgba(255,182,193,0.3);
+            padding-left: 12px;
+        }
+        
+        .entry-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .entry-desc {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 经济学碎片研究步骤样式 */
+        .research-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .research-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(147, 112, 219, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .research-step:hover {
+            background: rgba(147, 112, 219, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .step-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #9370DB;
+            line-height: 1;
+            min-width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(147, 112, 219, 0.15);
+            border-radius: 50%;
+            padding: 5px;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .step-desc {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .research-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+            line-height: 1.4;
+            margin-right: 10px;
+            flex: 1;
+        }
+        
+        .finding-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #9370DB;
+            margin-bottom: 5px;
+        }
+
+        .timeline-node.node-1 .node-badge {
+            overflow: visible; /* 确保内容不被裁剪 */
+        }
+
+        /* 在CSS样式中添加以下规则 */
+
+        .timeline-node.node-1 .node-inner .node-badge {
+            overflow: visible !important; /* 确保ACM徽章内容不被裁剪 */
+        }
+
+        /* 专门为ACM节点修改内部容器样式 */
+        .timeline-node.node-1 .node-inner {
+            overflow: visible; /* 确保内容不被裁剪 */
+        }
+
+        /* 更新ACM徽章图片显示样式 */
+        .timeline-node.node-1 .node-badge img {
+            object-position: center;
+            object-fit: contain;
+            padding: 18px; /* 增加内边距，留出更多空白区域 */
+            background-color: white;
+            margin: 0;
+            width: 90%; /* 稍微缩小图片 */
+            height: 90%;
+            position: relative;
+            left: 5%; /* 居中定位 */
+            top: 5%;
+        }
+
+        /* 隐藏主图上的箭头图标和脚印 */
+        .node-badge-icon {
+            display: none !important; /* 隐藏小箭头图标 */
+        }
+
+        .footprint {
+            display: none !important; /* 隐藏脚印 */
+        }
+
+        /* 项目经历部分的技能标签样式 */
+        .project-card .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .project-card .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #666;
+            background: rgba(255,182,193,0.05);
+            border: 1px solid rgba(255,182,193,0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .project-card .skill-tag:hover {
+            background: rgba(255,182,193,0.15);
+            color: #FF6B6B;
+            border-color: rgba(255,182,193,0.5);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 为不同项目设置不同的标签颜色主题 */
+        .project-card:nth-child(2) .skill-tag {
+            background: rgba(137,207,240,0.05);
+            border-color: rgba(137,207,240,0.3);
+        }
+
+        .project-card:nth-child(2) .skill-tag:hover {
+            background: rgba(137,207,240,0.15);
+            color: #3498db;
+            border-color: rgba(137,207,240,0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="logo-link text-xl font-bold font-serif bg-gradient-to-r from-[#2A2A2A] to-[#4A4A4A] bg-clip-text text-transparent">奔跑的烁</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="nav-link relative px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#FFB6C1] after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">关于我</a>
+                    <a href="#projects" class="nav-link relative px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#FFB6C1] after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">项目经历</a>
+                    <a href="#experience" class="nav-link relative px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#FFB6C1] after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">实践经历</a>
+                    <a href="#art" class="nav-link relative px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#FFB6C1] after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">艺术创作</a>
+                    <a href="#contact" class="nav-link relative px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#FFB6C1] after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">联系我</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="md:hidden flex items-center text-gray-700 focus:outline-none" id="mobile-menu-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div class="md:hidden hidden transition-all duration-300 pt-4 pb-2 space-y-3" id="mobile-menu">
+                <a href="#about" class="block px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300">关于我</a>
+                <a href="#projects" class="block px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300">项目经历</a>
+                <a href="#experience" class="block px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300">实践经历</a>
+                <a href="#art" class="block px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300">艺术创作</a>
+                <a href="#contact" class="block px-2 py-1 text-gray-700 hover:text-[#FFB6C1] transition-colors duration-300">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首屏区域 -->
+    <section class="hero-section min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+        <!-- 背景渐变和艺术效果 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#FFE6E6]/70 via-[#E6F0FF]/70 to-[#F5F5F5]/70 opacity-80 z-0"></div>
+        <div id="particles-js" class="absolute inset-0 z-1"></div>
+        
+        <!-- 主要内容 -->
+        <div class="container mx-auto px-4 z-10 flex flex-col items-center justify-center gap-12 md:gap-16 pt-20">
+            <!-- 内容区整体 -->
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-center gap-8 md:gap-16 w-full max-w-5xl">
+                <!-- 左侧头像区域 -->
+                <div class="avatar-container w-full md:w-2/5 flex justify-center animate__animated animate__fadeIn">
+                    <div class="relative">
+                        <div class="avatar-glow absolute inset-0 rounded-full bg-gradient-to-r from-[#FFB6C1] via-[#89CFF0] to-[#F4A460] opacity-50 blur-md animate-pulse"></div>
+                        <div class="avatar-frame rounded-full p-1.5 bg-gradient-to-r from-[#FFB6C1] via-[#89CFF0] to-[#F4A460] shadow-xl">
+                            <img src="images/touxiang.jpg" alt="奔跑的烁" class="rounded-full w-64 h-64 md:w-72 md:h-72 object-cover backdrop-blur-sm hover:scale-105 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧文字区域 -->
+                <div class="text-container w-full md:w-3/5 text-center md:text-left space-y-6 animate__animated animate__fadeIn animate__delay-1s md:pt-8">
+                    <h1 class="brand-title text-5xl md:text-6xl font-serif tracking-wider">
+                        奔跑的烁
+                    </h1>
+                    
+                    <div class="signature-container my-6 relative">
+                        <p class="signature text-xl md:text-2xl font-handwriting text-[#2A2A2A] italic">
+                            "允许灵魂有毛边，但绝不对庸常缴械"
+                        </p>
+                    </div>
+                    
+                    <div class="identity-tags flex flex-wrap justify-center md:justify-start gap-4 my-6">
+                        <div class="identity-tag flex items-center gap-2 px-3 py-1.5 bg-white/50 backdrop-blur-sm rounded-full shadow-sm">
+                            <span class="text-[#FFB6C1]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </span>
+                            <span class="text-sm text-gray-700">经济学拓荒者</span>
+                        </div>
+                        
+                        <div class="identity-tag flex items-center gap-2 px-3 py-1.5 bg-white/50 backdrop-blur-sm rounded-full shadow-sm">
+                            <span class="text-[#89CFF0]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </span>
+                            <span class="text-sm text-gray-700">AI产品设计师</span>
+                        </div>
+                        
+                        <div class="identity-tag flex items-center gap-2 px-3 py-1.5 bg-white/50 backdrop-blur-sm rounded-full shadow-sm">
+                            <span class="text-[#F4A460]">
+                                <!-- 替换为画盘图标 -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.5 9.5a1 1 0 11-2 0 1 1 0 012 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 13.5a1 1 0 10-2 0 1 1 0 002 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 13.5a1 1 0 10-2 0 1 1 0 002 0z" />
+                                </svg>
+                            </span>
+                            <span class="text-sm text-gray-700">艺术候鸟</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bio-text relative pl-4 border-l-2 border-[#FFB6C1]/30">
+                        <p class="text-base text-gray-600 max-w-xl leading-relaxed">
+                            在理性与诗意的晨昏线上，编织数字与色彩的第三种语言...
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 按钮区域，独立且居中 -->
+            <div class="w-full flex justify-center mt-8 mb-16">
+                <a href="#projects" class="cta-button flex items-center justify-center gap-2 px-16 py-3 rounded-full bg-gradient-to-r from-[#FFB6C1] to-[#F4A460] text-white shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 min-w-[280px] animate__animated animate__fadeIn animate__delay-2s">
+                    <span class="font-medium text-center">溯览彼时散落的晨昏</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-y-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目经历 -->
+    <section id="projects" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="title text-3xl mb-8 text-center">项目经历</h2>
+            <div class="project-grid">
+                <!-- 随心记项目 -->
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="image-container">
+                                <img src="images/suixinji_main.jpg" alt="随心记" class="project-image">
+            </div>
+        </div>
+                        <div class="project-card-back">
+                            <div class="project-header">
+                                <h3 class="project-title">随心记 - AI对话式生活助理</h3>
+                                <div class="project-year">2023</div>
+                    </div>
+                            
+                            <div class="project-info">
+                                <div class="project-section">
+                                    <p class="project-section-title">项目概述</p>
+                                    <p>针对年轻用户高频记录行为（消费、饮食、心情）开发的智能助手，采用"AI聊天+场景化记录"创新交互方式。</p>
+                </div>
+                                
+                                <div class="project-section">
+                                    <p class="project-section-title">核心功能</p>
+                                    <p>多模态交互（NLP+OCR）、个性化虚拟IP角色定制、基于用户画像的场景化回复策略。</p>
+            </div>
+                                
+                                <div class="project-section">
+                                    <p class="project-section-title">成果</p>
+                                    <p>获淘天AI大赛优秀项目奖，验证了交互可行性与用户情绪价值需求。</p>
+        </div>
+                            </div>
+                            
+                            <div class="skill-tags">
+                                <span class="skill-tag">定制化角色</span>
+                                <span class="skill-tag">多模态交互</span>
+                                <span class="skill-tag">场景化问答</span>
+                              
+            </div>
+                            
+                            <div class="detail-link-container">
+                                <button type="button" onclick="showDetails('suixinji')" class="more-details">
+                                    更多细节
+                                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </button>
+        </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 天猫项目 -->
+                <div class="project-card">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="image-container">
+                                <img src="images/tmall_main.jpg" alt="天猫" class="project-image">
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <div class="project-header">
+                                <h3 class="project-title">天猫88VIP会员权益优化</h3>
+                                <div class="project-year">2024</div>
+                            </div>
+                            
+                            <div class="project-info">
+                                <div class="project-section">
+                                    <p class="project-section-title">项目背景</p>
+                                    <p>解决用户权益感知分散问题，强化88会员权益心智与权益渗透。</p>
+                                </div>
+                                
+                                <div class="project-section">
+                                    <p class="project-section-title">核心项目</p>
+                                    <p>① 95折权益优化：首次实现跨业务线权益商品统一导购</p>
+                                    <p>② 积分省心兑：针对高积分用户临期积分浪费问题，设计积分商品套餐兑换新玩法</p>
+                                </div>
+                                
+                                <div class="project-section">
+                                    <p class="project-section-title">成果</p>
+                                    <p>频道改版后客单价提升146%；促进积分兑换增长33%</p>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-tags">
+                              
+                                <span class="skill-tag">人群洞察</span>
+                                <span class="skill-tag">权益设计</span>
+                                <span class="skill-tag">业务整合</span>
+                            </div>
+                            
+                            <div class="detail-link-container">
+                                <button type="button" onclick="showDetails('tmall')" class="more-details">
+                                    更多细节
+                                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目详情模态框 -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-close">×</div>
+            <div class="modal-body">
+                <!-- 动态插入项目详情 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 细节展示模态框 -->
+    <div class="details-modal" id="details-modal">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <div class="details-gallery">
+            <div class="details-gallery-wrapper" id="gallery-images-container">
+                <!-- 图片将通过JS动态添加 -->
+            </div>
+            <button class="gallery-nav-btn gallery-prev-btn" id="gallery-prev">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button class="gallery-nav-btn gallery-next-btn" id="gallery-next">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            <div class="gallery-dots" id="gallery-dots">
+                <!-- 指示点将通过JS动态添加 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // 项目详情数据
+    const projectDetails = {
+        suixinji: {
+            title: "随心记 - AI对话式生活助理",
+            description: `
+                <h4 class="text-xl font-bold mb-4">项目背景</h4>
+                <p class="mb-4">针对年轻用户高频记录行为（消费、饮食、心情）的枯燥痛点，设计"AI聊天+场景化记录"工具，结合虚拟IP角色提升用户情感黏性与长期留存。</p>
+                
+                <h4 class="text-xl font-bold mb-4">核心功能</h4>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>多模态交互：融合NLP技术实现多轮对话，结合OCR识别消费账单，减少50%手动输入步骤</li>
+                    <li>个性化角色：支持用户自定义虚拟IP，通过语音包与语气配置提升拟真度</li>
+                    <li>场景化回复策略：基于用户画像预设AI回复优先级逻辑</li>
+                </ul>
+
+                <h4 class="text-xl font-bold mb-4">项目成果</h4>
+                <p>产品Demo获淘天AI大赛优秀项目奖，验证交互可行性与用户情绪价值需求</p>
+            `,
+            images: ["suixinji/ai_competition.jpg", "suixinji/ai_trophy.jpg", "suixinji_neirong.jpg"]
+        },
+        tmall: {
+            title: "天猫88VIP会员权益优化",
+            description: `
+                <h4 class="text-xl font-bold mb-4">项目背景</h4>
+                <p class="mb-4">整合天猫超市、国际、健康等多业务线95折商品，解决用户权益感知分散问题，强化88会员权益心智与权益渗透。</p>
+
+                <h4 class="text-xl font-bold mb-4">核心项目</h4>
+                <div class="mb-4">
+                    <h5 class="text-lg font-semibold text-[#FFB6C1] mb-2">1. 95折权益优化</h5>
+                    <ul class="list-disc pl-6 mb-3">
+                        <li>跨业务线统一导购：将天猫超市、天猫国际、天猫健康等业务线95折商品整合进统一入口，用户权益渗透率提升9.95倍</li>
+                        <li>品牌专区运营：从单品推荐转向品牌专区体验，通过动态算法优先展示高口碑店铺</li>
+                        <li>频道改版后客单价提升146%，日均GMV贡献增长26倍</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-4">
+                    <h5 class="text-lg font-semibold text-[#FFB6C1] mb-2">2. 积分省心兑</h5>
+                    <ul class="list-disc pl-6 mb-3">
+                        <li>定制化套餐推荐：基于用户积分值与品类偏好，推荐个性化三档套餐</li>
+                        <li>全域无忧兑：一键登录确认，省去用户多平台操作流程，兑换效率提升62%</li>
+                        <li>活动首月促进整体积分回收增长33%，重复兑换率提升2.4倍</li>
+                    </ul>
+                </div>
+
+                <h4 class="text-xl font-bold mb-4">创新点</h4>
+                <ul class="list-disc pl-6">
+                    <li>首创跨业务线整合模式，打破部门壁垒，为后续多业务联动提供标杆案例</li>
+                    <li>引入积分价值映射机制，通过积分兑换套餐形式提升用户决策效率</li>
+                </ul>
+            `,
+            images: ["tmall_vip.jpg", "tmall_main.jpg"]
+        }
+    };
+
+    // 全局变量保存当前显示的图片索引和图片列表
+    let currentGalleryIndex = 0;
+    let galleryImages = [];
+
+    // 显示项目详情和图片轮播
+    function showDetails(projectId) {
+        const modal = document.getElementById('details-modal');
+        const imagesContainer = document.getElementById('gallery-images-container');
+        const dotsContainer = document.getElementById('gallery-dots');
+        
+        // 检查是否为有效的项目ID
+        if (!projectDetails[projectId]) {
+            console.error('无效的项目ID:', projectId);
+            // 兼容旧版本逻辑，如果只是单张图片
+            const singleImage = projectId;
+            galleryImages = [singleImage];
+            
+            // 清除并创建单张图片
+            imagesContainer.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            const imgElement = document.createElement('img');
+            imgElement.src = 'images/' + singleImage;
+            imgElement.alt = '项目细节';
+            imgElement.className = 'details-gallery-img active';
+            imagesContainer.appendChild(imgElement);
+            
+            // 隐藏导航按钮和指示点
+            document.getElementById('gallery-prev').style.display = 'none';
+            document.getElementById('gallery-next').style.display = 'none';
+            modal.style.display = 'flex';
+            return;
+        }
+        
+        // 获取项目图片
+        galleryImages = projectDetails[projectId].images || [];
+        currentGalleryIndex = 0;
+        
+        // 清除之前的内容
+        imagesContainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        
+        // 创建所有图片元素，但只显示当前索引的图片
+        galleryImages.forEach((image, index) => {
+            const imgElement = document.createElement('img');
+            imgElement.src = 'images/' + image;
+            imgElement.alt = projectDetails[projectId].title;
+            imgElement.className = 'details-gallery-img ' + (index === 0 ? 'active' : '');
+            imagesContainer.appendChild(imgElement);
+            
+            // 创建指示点
+            const dot = document.createElement('div');
+            dot.className = 'gallery-dot ' + (index === 0 ? 'active' : '');
+            dot.onclick = function() { showGalleryImage(index); };
+            dotsContainer.appendChild(dot);
+        });
+        
+        // 显示或隐藏导航按钮
+        const showNav = galleryImages.length > 1;
+        document.getElementById('gallery-prev').style.display = showNav ? 'flex' : 'none';
+        document.getElementById('gallery-next').style.display = showNav ? 'flex' : 'none';
+        dotsContainer.style.display = showNav ? 'flex' : 'none';
+        
+        // 显示模态框
+        modal.style.display = 'flex';
+        
+        // 添加ESC键关闭功能
+        document.addEventListener('keydown', handleModalKeydown);
+    }
+
+    // 关闭模态框函数
+    function closeModal() {
+        const modal = document.getElementById('details-modal');
+        if(modal) {
+            modal.style.display = 'none';
+            console.log('关闭模态框');
+            // 移除键盘事件监听
+            document.removeEventListener('keydown', handleModalKeydown);
+        }
+    }
+    
+    // 键盘事件处理
+    function handleModalKeydown(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        } else if (event.key === "ArrowLeft") {
+            navigateGallery(-1);
+        } else if (event.key === "ArrowRight") {
+            navigateGallery(1);
+        }
+    }
+    
+    // 切换到指定索引的图片
+    function showGalleryImage(index) {
+        if (index < 0 || index >= galleryImages.length) return;
+        
+        // 更新当前索引
+        currentGalleryIndex = index;
+        
+        // 更新图片显示状态
+        const images = document.querySelectorAll('.details-gallery-img');
+        images.forEach((img, i) => {
+            img.classList.toggle('active', i === index);
+        });
+        
+        // 更新指示点状态
+        const dots = document.querySelectorAll('.gallery-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+    
+    // 导航到上一张或下一张图片
+    function navigateGallery(step) {
+        let newIndex = currentGalleryIndex + step;
+        
+        // 循环导航
+        if (newIndex < 0) newIndex = galleryImages.length - 1;
+        if (newIndex >= galleryImages.length) newIndex = 0;
+        
+        showGalleryImage(newIndex);
+    }
+
+    // 页面加载完成后设置事件监听
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('details-modal');
+        
+        // 点击背景关闭
+        if(modal) {
+            modal.addEventListener('click', function(event) {
+                if(event.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+        
+        // 导航按钮事件绑定
+        document.getElementById('gallery-prev').addEventListener('click', function() {
+            navigateGallery(-1);
+        });
+        
+        document.getElementById('gallery-next').addEventListener('click', function() {
+            navigateGallery(1);
+        });
+        
+        // 测试模态框是否存在
+        console.log('模态框状态: ' + (modal ? '已找到' : '未找到'));
+        
+        // 项目详情模态框
+        const projModal = document.getElementById('projectModal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalBody = document.querySelector('.modal-body');
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.dataset.project;
+                const details = projectDetails[projectId];
+                
+                if (details) {
+                    modalBody.innerHTML = `
+                        <h2 class="text-2xl font-bold mb-6">${details.title}</h2>
+                        ${details.description}
+                        ${details.images ? `
+                            <div class="grid grid-cols-2 gap-4 mt-6">
+                                ${details.images.map(img => `
+                                    <img src="images/${img}" alt="${details.title}" class="rounded-lg shadow-md">
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    `;
+                    
+                    projModal.style.display = 'flex';
+                }
+            });
+        });
+
+        if (modalClose) {
+            modalClose.addEventListener('click', () => {
+                projModal.style.display = 'none';
+            });
+        }
+
+        if (projModal) {
+            projModal.addEventListener('click', (e) => {
+                if (e.target === projModal) {
+                    projModal.style.display = 'none';
+                }
+            });
+        }
+        
+        // 画廊功能初始化
+        initGallery();
+    });
+    
+    // 初始化画廊功能
+    function initGallery() {
+        const galleryWrapper = document.querySelector('.gallery-wrapper');
+        const prevBtn = document.querySelector('.gallery-prev');
+        const nextBtn = document.querySelector('.gallery-next');
+        
+        if (!galleryWrapper || !prevBtn || !nextBtn) return;
+        
+        const items = document.querySelectorAll('.artwork-item');
+        if (items.length === 0) return;
+        
+        console.log('画廊初始化: 找到', items.length, '个作品项');
+        
+        // 计算单个项目的实际宽度（考虑到外边距和间距）
+        const itemStyle = window.getComputedStyle(items[0]);
+        const itemMarginLeft = parseInt(itemStyle.marginLeft) || 0;
+        const itemMarginRight = parseInt(itemStyle.marginRight) || 0;
+        const itemWidth = items[0].offsetWidth + itemMarginLeft + itemMarginRight + 16; // 加上间距
+        
+        console.log('项目宽度计算: ', items[0].offsetWidth, '+', itemMarginLeft, '+', itemMarginRight, '=', itemWidth);
+        
+        // 计算特殊项的宽度
+        const specialItem = document.querySelector('.artwork-item-special');
+        let specialItemWidth = itemWidth;
+        if (specialItem) {
+            const specialStyle = window.getComputedStyle(specialItem);
+            specialItemWidth = specialItem.offsetWidth + 
+                parseInt(specialStyle.marginLeft || 0) + 
+                parseInt(specialStyle.marginRight || 0) + 16;
+            console.log('特殊项宽度: ', specialItemWidth);
+        }
+        
+        const containerWidth = galleryWrapper.parentElement.offsetWidth;
+        
+        // 计算总宽度，考虑最后一个特殊项
+        let totalWidth = 0;
+        items.forEach((item, i) => {
+            if (item.classList.contains('artwork-item-special')) {
+                totalWidth += specialItemWidth;
+            } else {
+                totalWidth += itemWidth;
+            }
+        });
+        
+        // 扩容：将安全边距从50px调整为200px，确保更多图片时不被裁切
+        const maxScroll = Math.min(0, containerWidth - totalWidth - 200); // 扩大安全边距
+        
+        console.log('容器宽度:', containerWidth, '总宽度:', totalWidth, '最大滚动:', maxScroll);
+        
+        let currentPosition = 0;
+        
+        // 更新导航按钮状态
+        const updateNavButtons = () => {
+            // 左侧按钮：当位置为0时禁用
+            const atLeftEdge = currentPosition >= 0;
+            prevBtn.style.opacity = atLeftEdge ? '0.5' : '1';
+            prevBtn.disabled = atLeftEdge;
+            
+            // 右侧按钮：当达到最大滚动距离时禁用
+            const atRightEdge = currentPosition <= maxScroll;
+            nextBtn.style.opacity = atRightEdge ? '0.5' : '1';
+            nextBtn.disabled = atRightEdge;
+            
+            console.log('按钮状态更新 - 左侧:', atLeftEdge ? '禁用' : '启用', '右侧:', atRightEdge ? '禁用' : '启用');
+        };
+        
+        // 滑动到指定位置
+        const slideTo = (position) => {
+            // 确保位置在有效范围内
+            const newPosition = Math.max(maxScroll, Math.min(0, position));
+            
+            // 如果位置没有改变，不执行动画
+            if (newPosition === currentPosition) {
+                console.log('位置未变化:', newPosition);
+                return;
+            }
+            
+            currentPosition = newPosition;
+            galleryWrapper.style.transform = `translateX(${currentPosition}px)`;
+            updateNavButtons();
+            console.log('滑动到位置:', currentPosition, '最大滚动:', maxScroll);
+        };
+        
+        // 特殊处理：直接跳到最后一项
+        const showLastItem = () => {
+            slideTo(maxScroll);
+        };
+        
+        // 向左滑动一个屏幕宽度
+        prevBtn.addEventListener('click', function() {
+            console.log('点击上一张');
+            const moveAmount = Math.min(containerWidth, Math.abs(currentPosition));
+            slideTo(currentPosition + moveAmount);
+        });
+        
+        // 向右滑动一个屏幕宽度
+        nextBtn.addEventListener('click', function() {
+            console.log('点击下一张');
+            
+            // 检查是否接近最后一张
+            const remainingScroll = Math.abs(maxScroll - currentPosition);
+            if (remainingScroll < specialItemWidth * 1.5) {
+                // 如果接近最后，直接滑到最大滚动位置
+                showLastItem();
+            } else {
+                const moveAmount = Math.min(containerWidth, remainingScroll - specialItemWidth);
+                slideTo(currentPosition - moveAmount);
+            }
+        });
+        
+        // 初始化按钮状态
+        updateNavButtons();
+        console.log('画廊初始化完成，容器宽度:', containerWidth);
+        
+        // 添加触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        galleryWrapper.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        
+        galleryWrapper.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+        
+        function handleSwipe() {
+            const swipeDiff = touchStartX - touchEndX;
+            
+            if (swipeDiff > 50) {
+                // 向左滑，查看更多
+                // 检查是否接近最后一张
+                const remainingScroll = Math.abs(maxScroll - currentPosition);
+                if (remainingScroll < specialItemWidth * 1.5) {
+                    // 如果接近最后，直接滑到最大滚动位置
+                    showLastItem();
+                } else {
+                    const moveAmount = Math.min(containerWidth / 2, remainingScroll - specialItemWidth);
+                    slideTo(currentPosition - moveAmount);
+                }
+            } else if (swipeDiff < -50) {
+                // 向右滑，返回
+                const moveAmount = Math.min(containerWidth / 2, Math.abs(currentPosition));
+                slideTo(currentPosition + moveAmount);
+            }
+        }
+        
+        // 窗口大小变化时重新计算
+        window.addEventListener('resize', function() {
+            const newContainerWidth = galleryWrapper.parentElement.offsetWidth;
+            // 重新计算最大滚动距离
+            const newMaxScroll = Math.min(0, newContainerWidth - totalWidth - 50);
+            
+            console.log('窗口调整: 新容器宽度', newContainerWidth, '新最大滚动', newMaxScroll);
+            
+            // 如果当前位置超出新的最大滚动距离，则调整位置
+            if (currentPosition < newMaxScroll) {
+                slideTo(newMaxScroll);
+            } else {
+                // 更新按钮状态，因为最大滚动距离可能发生变化
+                updateNavButtons();
+            }
+        });
+    }
+    </script>
+
+    <!-- 实践经历 -->
+    <section id="experience" class="py-5 relative overflow-hidden">
+        <!-- 添加背景渐变和粒子效果容器 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#FFE6E6]/70 via-[#E6F0FF]/70 to-[#F5F5F5]/70 opacity-80 z-0"></div>
+        <div id="particles-experience" class="absolute inset-0 z-1"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="title text-3xl mb-1 text-center">校园碎片</h2>
+            <div class="road-timeline">
+                <!-- 道路时间线 -->
+                <div class="road-path">
+                    <!-- 道路上的光点 -->
+                    <div class="road-light road-light-1"></div>
+                    <div class="road-light road-light-2"></div>
+                    <div class="road-light road-light-3"></div>
+                    <div class="road-light road-light-4"></div>
+                    <div class="road-light road-light-5"></div>
+                    
+                    <!-- 道路上的脚印 -->
+                    <div class="road-footprint footprint-1" aria-hidden="true"></div>
+                    <div class="road-footprint footprint-2" aria-hidden="true"></div>
+                    <div class="road-footprint footprint-3" aria-hidden="true"></div>
+                    <div class="road-footprint footprint-4" aria-hidden="true"></div>
+                    <div class="road-footprint footprint-5" aria-hidden="true"></div>
+                    <div class="road-footprint footprint-6" aria-hidden="true"></div>
+                </div>
+
+                <!-- 时间轴连接线 -->
+                <div class="curved-timeline"></div>
+                
+                <!-- 时间线年份标记 -->
+                <!-- <div class="timeline-year timeline-year-2019">2019</div> -->
+                <!-- <div class="timeline-year timeline-year-2021">2021</div> -->
+                
+                <!-- 删除所有连接节点的过渡元素 -->
+                
+                <!-- ACM碎片节点 -->
+                <div class="timeline-node node-1" tabindex="0">
+                    <div class="node-inner">
+                        <div class="node-badge">
+                            <img src="images/acm/ACM_lego.jpg" alt="ACM碎片" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="node-reflection"></div>
+                </div>
+                <div class="node-info node-1-info">
+                    <!-- <div class="node-year">2017-2019</div> -->
+                    <div class="node-year">2017-2019</div>
+                    <div class="node-title">ACM碎片</div>
+                    <div class="node-subtitle">三年，从青涩到执旗</div>
+                </div>
+                <div class="node-details node-1-details">
+                    <div class="details-content">
+                        <div class="details-role">ACM经历</div>
+                        <div class="details-timeline">
+                            <div class="timeline-entry">
+                                <div class="entry-date">17</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">华硕合伙人</h4>
+                                    <p class="entry-desc">加入ACM，成为华硕合伙人，负责校园策略落地与执行</p>
+                                </div>
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="entry-date">18</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">校区种子教官</h4>
+                                    <p class="entry-desc">专注新人培训、活动策划与校园营销</p>
+                                </div>
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="entry-date">19</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">城市银牌种教</h4>
+                                    <p class="entry-desc">策划主持多场城市多所高校线下沙龙活动如"城市悦读会"、"城市读书会"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details-tags">
+                            <span class="skill-tag">技能培训</span>
+                            <span class="skill-tag">项目管理</span>
+                            <span class="skill-tag">活动策划</span>
+    
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CHFS碎片节点 -->
+                <div class="timeline-node node-2" tabindex="0">
+                    <div class="node-inner">
+                        <div class="node-badge">
+                            <img src="images/CHFS/beijing_research.jpg" alt="CHFS碎片" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="node-reflection"></div>
+                </div>
+                <div class="node-info node-2-info">
+                    <!-- <div class="node-year">2019.07</div> -->
+                    <div class="node-year">2019.07</div>
+                    <div class="node-title">CHFS碎片</div>
+                    <div class="node-subtitle">探索城乡家庭金融密码</div>
+                </div>
+                <div class="node-details node-2-details">
+                    <div class="details-content">
+                        <div class="details-role">中国家庭金融调查与研究中心(CHFS)北京调研</div>
+                        <div class="details-timeline">
+                            <div class="timeline-entry">
+                                <div class="entry-date">01</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">访谈规模</h4>
+                                    <p class="entry-desc">完成300+次面对面访谈，涵盖城市家庭与农村家庭</p>
+                                </div>
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="entry-date">02</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">调研领域</h4>
+                                    <p class="entry-desc">家庭收入、消费结构、投资偏好、风险意识等多维度的微观家庭数据收集</p>
+                                </div>
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="entry-date">03</div>
+                                <div class="entry-content">
+                                    <h4 class="entry-title">督导职责</h4>
+                                    <p class="entry-desc">作为访问督导，负责培训调研员、汇总整理数据并保障数据质量</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details-tags">
+                            <span class="skill-tag">实地调研</span>
+                            <span class="skill-tag">数据分析</span>
+                            <span class="skill-tag">访谈管理</span>
+                    
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 经济学碎片节点 -->
+                <div class="timeline-node node-3" tabindex="0">
+                    <div class="node-inner">
+                        <div class="node-badge">
+                            <img src="images/jinjixue.jpg" alt="经济学碎片" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="node-reflection"></div>
+                </div>
+                <div class="node-info node-3-info">
+                    <!-- <div class="node-year">2021-2023</div> -->
+                    <div class="node-year">2021-2023</div>
+                    <div class="node-title">Econ碎片</div>
+                    <div class="node-subtitle">破解家乡的财富密码</div>
+                </div>
+                <div class="node-details node-3-details">
+                    <div class="details-content">
+                        <div class="details-role">经济学研究成果</div>
+                        <div class="academic-layout">
+                            <div class="paper-title">
+                                <h4 class="research-heading">《能源禀赋对城乡收入差距的影响》</h4>
+                                <div class="journal-badge" title="重庆工商学报">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="rgba(147,112,219,0.2)" stroke="rgba(147,112,219,0.9)" stroke-width="1.5"/>
+                                        <path d="M9 7h6M9 11h6M9 15h4" stroke="rgba(147,112,219,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>核心期刊收录</span>
+                                </div>
+                            </div>
+                            <div class="research-steps">
+                                <div class="research-step">
+                                    <div class="step-number">01</div>
+                                    <div class="step-content">
+                                        <h5 class="step-title">数据收集</h5>
+                                        <p class="step-desc">从国家统计局获取城乡家庭收入和能源生产数据</p>
+                                    </div>
+                                </div>
+                                <div class="research-step">
+                                    <div class="step-number">02</div>
+                                    <div class="step-content">
+                                        <h5 class="step-title">模型构建</h5>
+                                        <p class="step-desc">建立多元回归模型，分析能源禀赋与收入差距关系</p>
+                                    </div>
+                                </div>
+                                <div class="research-step">
+                                    <div class="step-number">03</div>
+                                    <div class="step-content">
+                                        <h5 class="step-title">结果验证</h5>
+                                        <p class="step-desc">研究发现能源禀赋通过行政垄断对城乡收入差距产生显著影响。</p>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="details-tags">
+                            <span class="skill-tag">数据分析</span>
+                            <span class="skill-tag">模型构建</span>
+                            <span class="skill-tag">实证研究</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 艺术创作 -->
+    <section id="art" class="art-gallery py-14">
+        <div class="container mx-auto px-4">
+            <h2 class="title text-3xl mb-12 text-center">艺术创作</h2>
+            <div class="gallery-container relative">
+                <button class="gallery-nav gallery-prev" aria-label="上一张" id="gallery-prev-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                
+                <div class="gallery-wrapper" id="gallery-wrapper">
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/xiangwangziyou.jpg" alt="向往自由" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">望自由</h3>
+                            <p class="text-gray-600 mt-1">天高任鸟飞</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/taohua.jpg" alt="桃花" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">春日桃花</h3>
+                            <p class="text-gray-600 mt-1">待到山花烂漫时</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/xiyangxia.jpg" alt="夕阳下" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">夕阳剪影</h3>
+                            <p class="text-gray-600 mt-1">喝个咖啡看个书</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/dengta.jpg" alt="灯塔" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">灯塔</h3>
+                            <p class="text-gray-600 mt-1">照亮回家的路</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/naxienian.jpg" alt="那些年" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">那些年</h3>
+                            <p class="text-gray-600 mt-1">我们逝去的青春</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/yangguangmanwu.jpg" alt="阳光漫舞" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">阳光漫舞</h3>
+                            <p class="text-gray-600 mt-1">光影的舞动</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/gugongdemao.jpg" alt="故宫的猫" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">故宫的猫</h3>
+                            <p class="text-gray-600 mt-1">晃晃荡荡又是一天</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/WYB.jpg" alt="午夜蓝" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">酷盖</h3>
+                            <p class="text-gray-600 mt-1">在世界的任何角落跳舞都没差</p>
+                        </div>
+                    </div>
+                    
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/qianxingdeche.jpg" alt="前行的车" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">前行</h3>
+                            <p class="text-gray-600 mt-1">奔向远方</p>
+                        </div>
+                    </div>
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/wuzhe.jpg" alt="无者" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">起舞</h3>
+                            <p class="text-gray-600 mt-1">倘若没有光就做自己的光</p>
+                        </div>
+                    </div>
+                    <div class="artwork-item">
+                        <img src="images/zuopinji/huanghunlieche.jpg" alt="黄昏列车" class="artwork-image">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">黄昏列车</h3>
+                            <p class="text-gray-600 mt-1">驶向温柔的远方</p>
+                        </div>
+                    </div>
+                    <!-- 将不要回头移到最后 -->
+                    <div class="artwork-item artwork-item-special">
+                        <img src="images/zuopinji/XZ.png" alt="探索" class="artwork-image artwork-special">
+                        <div class="mt-3 text-center">
+                            <h3 class="text-lg font-bold">不要回头</h3>
+                            <p class="text-gray-600 mt-1">破界跨界闯世界</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="gallery-nav gallery-next" aria-label="下一张" id="gallery-next-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <style>
+    /* 艺术创作画廊样式 */
+    .art-gallery {
+        padding: 4rem 0;
+        background: linear-gradient(120deg, rgba(255,218,185,0.2) 0%, rgba(255,218,185,0.1) 35%, rgba(255,182,193,0.15) 100%);
+    }
+
+    .gallery-container {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 0;
+        overflow: hidden;
+    }
+
+    .gallery-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 2rem;
+        padding: 1rem;
+        transition: transform 0.5s ease;
+    }
+
+    .artwork-item {
+        flex: 0 0 300px;
+        margin: 0 1rem;
+    }
+
+    .artwork-image {
+        width: 100%;
+        height: 300px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        object-fit: cover;
+    }
+
+    .artwork-item:hover .artwork-image {
+        transform: scale(1.05);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .gallery-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48px;
+        height: 48px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .gallery-nav:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .gallery-prev {
+        left: 10px;
+    }
+
+    .gallery-next {
+        right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .artwork-item {
+            flex: 0 0 250px;
+        }
+        
+        .artwork-image {
+            height: 200px;
+        }
+        
+        .gallery-nav {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .artwork-item {
+            flex: 0 0 200px;
+        }
+        
+        .artwork-image {
+            height: 180px;
+        }
+    }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化所有功能
+        initGallery();
+        initSkillToggle();
+        initProgressBars();
+        initRoadTimelineEffects();
+        initAccessibility();
+        
+        // 初始化首页粒子效果
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80, // 调低粒子数量
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#FFB6C1", "#89CFF0", "#F4A460"]
+                },
+                "shape": {
+                    "type": ["circle", "triangle"], // 添加三角形，增加艺术感
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.3, // 降低不透明度
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.05,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1.5,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 180, // 增加距离，线条更长更有艺术感
+                    "color": "#FFB6C1",
+                    "opacity": 0.2, // 降低线条不透明度
+                    "width": 0.8 // 更细的线条
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "bubble"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "bubble": {
+                        "distance": 200,
+                        "size": 4,
+                        "duration": 2,
+                        "opacity": 0.6, // 降低气泡不透明度
+                        "speed": 3
+                    },
+                    "push": {
+                        "particles_nb": 3
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // 鼠标跟随效果
+        const cursorGlow = document.querySelector('.cursor-glow');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.opacity = '1';
+            cursorGlow.style.left = e.clientX - 75 + 'px';
+            cursorGlow.style.top = e.clientY - 75 + 'px';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+        
+        // 更新导航栏
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white/95', 'shadow-md');
+                nav.classList.remove('bg-white/80');
+            } else {
+                nav.classList.add('bg-white/80');
+                nav.classList.remove('bg-white/95', 'shadow-md');
+            }
+        });
+
+        // 添加移动端菜单切换功能
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 点击菜单项后关闭菜单
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // 初始化校园碎片部分的粒子效果
+        particlesJS('particles-experience', {
+            "particles": {
+                "number": {
+                    "value": 50, // 减少粒子数量以避免干扰
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#FFB6C1", "#89CFF0", "#F4A460"]
+                },
+                "shape": {
+                    "type": ["circle", "triangle"],
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.2, // 降低不透明度
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 0.8,
+                        "opacity_min": 0.05,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 2.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#FFB6C1",
+                    "opacity": 0.15,
+                    "width": 0.6
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "bubble"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "bubble": {
+                        "distance": 150,
+                        "size": 3.5,
+                        "duration": 2,
+                        "opacity": 0.5,
+                        "speed": 3
+                    },
+                    "push": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    });
+
+    // 初始化画廊功能
+    function initGallery() {
+        const galleryWrapper = document.getElementById('gallery-wrapper');
+        const prevBtn = document.getElementById('gallery-prev-btn');
+        const nextBtn = document.getElementById('gallery-next-btn');
+        
+        if (!galleryWrapper || !prevBtn || !nextBtn) {
+            console.error('画廊元素未找到');
+            return;
+        }
+        
+        const items = galleryWrapper.querySelectorAll('.artwork-item');
+        if (items.length === 0) {
+            console.error('未找到作品项');
+            return;
+        }
+        
+        console.log('画廊初始化: 找到', items.length, '个作品项');
+        
+        // 计算单个项目的实际宽度（考虑到外边距和间距）
+        const itemStyle = window.getComputedStyle(items[0]);
+        const itemMarginLeft = parseInt(itemStyle.marginLeft) || 0;
+        const itemMarginRight = parseInt(itemStyle.marginRight) || 0;
+        const itemWidth = items[0].offsetWidth + itemMarginLeft + itemMarginRight + 16; // 加上间距
+        
+        console.log('项目宽度计算: ', items[0].offsetWidth, '+', itemMarginLeft, '+', itemMarginRight, '=', itemWidth);
+        
+        // 计算特殊项的宽度
+        const specialItem = document.querySelector('.artwork-item-special');
+        let specialItemWidth = itemWidth;
+        if (specialItem) {
+            const specialStyle = window.getComputedStyle(specialItem);
+            specialItemWidth = specialItem.offsetWidth + 
+                parseInt(specialStyle.marginLeft || 0) + 
+                parseInt(specialStyle.marginRight || 0) + 16;
+            console.log('特殊项宽度: ', specialItemWidth);
+        }
+        
+        const containerWidth = galleryWrapper.parentElement.offsetWidth;
+        
+        // 计算总宽度，考虑最后一个特殊项
+        let totalWidth = 0;
+        items.forEach((item, i) => {
+            if (item.classList.contains('artwork-item-special')) {
+                totalWidth += specialItemWidth;
+            } else {
+                totalWidth += itemWidth;
+            }
+        });
+        
+        // 确保最大滚动距离计算正确，考虑特殊项目
+        const maxScroll = Math.min(0, containerWidth - totalWidth - 50); // 额外留出50px空间
+        
+        console.log('容器宽度:', containerWidth, '总宽度:', totalWidth, '最大滚动:', maxScroll);
+        
+        let currentPosition = 0;
+        
+        // 更新导航按钮状态
+        const updateNavButtons = () => {
+            // 左侧按钮：当位置为0时禁用
+            const atLeftEdge = currentPosition >= 0;
+            prevBtn.style.opacity = atLeftEdge ? '0.5' : '1';
+            prevBtn.disabled = atLeftEdge;
+            
+            // 右侧按钮：当达到最大滚动距离时禁用
+            const atRightEdge = currentPosition <= maxScroll;
+            nextBtn.style.opacity = atRightEdge ? '0.5' : '1';
+            nextBtn.disabled = atRightEdge;
+            
+            console.log('按钮状态更新 - 左侧:', atLeftEdge ? '禁用' : '启用', '右侧:', atRightEdge ? '禁用' : '启用');
+        };
+        
+        // 滑动到指定位置
+        const slideTo = (position) => {
+            // 确保位置在有效范围内
+            const newPosition = Math.max(maxScroll, Math.min(0, position));
+            
+            // 如果位置没有改变，不执行动画
+            if (newPosition === currentPosition) {
+                console.log('位置未变化:', newPosition);
+                return;
+            }
+            
+            currentPosition = newPosition;
+            galleryWrapper.style.transform = `translateX(${currentPosition}px)`;
+            updateNavButtons();
+            console.log('滑动到位置:', currentPosition, '最大滚动:', maxScroll);
+        };
+        
+        // 特殊处理：直接跳到最后一项
+        const showLastItem = () => {
+            slideTo(maxScroll);
+        };
+        
+        // 向左滑动一个屏幕宽度
+        prevBtn.addEventListener('click', function() {
+            console.log('点击上一张');
+            const moveAmount = Math.min(containerWidth, Math.abs(currentPosition));
+            slideTo(currentPosition + moveAmount);
+        });
+        
+        // 向右滑动一个屏幕宽度
+        nextBtn.addEventListener('click', function() {
+            console.log('点击下一张');
+            
+            // 检查是否接近最后一张
+            const remainingScroll = Math.abs(maxScroll - currentPosition);
+            if (remainingScroll < specialItemWidth * 1.5) {
+                // 如果接近最后，直接滑到最大滚动位置
+                showLastItem();
+            } else {
+                const moveAmount = Math.min(containerWidth, remainingScroll - specialItemWidth);
+                slideTo(currentPosition - moveAmount);
+            }
+        });
+        
+        // 初始化按钮状态
+        updateNavButtons();
+        console.log('画廊初始化完成，容器宽度:', containerWidth);
+        
+        // 添加触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        galleryWrapper.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        
+        galleryWrapper.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+        
+        function handleSwipe() {
+            const swipeDiff = touchStartX - touchEndX;
+            
+            if (swipeDiff > 50) {
+                // 向左滑，查看更多
+                // 检查是否接近最后一张
+                const remainingScroll = Math.abs(maxScroll - currentPosition);
+                if (remainingScroll < specialItemWidth * 1.5) {
+                    // 如果接近最后，直接滑到最大滚动位置
+                    showLastItem();
+                } else {
+                    const moveAmount = Math.min(containerWidth / 2, remainingScroll - specialItemWidth);
+                    slideTo(currentPosition - moveAmount);
+                }
+            } else if (swipeDiff < -50) {
+                // 向右滑，返回
+                const moveAmount = Math.min(containerWidth / 2, Math.abs(currentPosition));
+                slideTo(currentPosition + moveAmount);
+            }
+        }
+        
+        // 窗口大小变化时重新计算
+        window.addEventListener('resize', function() {
+            const newContainerWidth = galleryWrapper.parentElement.offsetWidth;
+            // 重新计算最大滚动距离
+            const newMaxScroll = Math.min(0, newContainerWidth - totalWidth - 50);
+            
+            console.log('窗口调整: 新容器宽度', newContainerWidth, '新最大滚动', newMaxScroll);
+            
+            // 如果当前位置超出新的最大滚动距离，则调整位置
+            if (currentPosition < newMaxScroll) {
+                slideTo(newMaxScroll);
+            } else {
+                // 更新按钮状态，因为最大滚动距离可能发生变化
+                updateNavButtons();
+            }
+        });
+    }
+
+    // 技能切换功能
+    function initSkillToggle() {
+        const skillCategories = document.querySelectorAll('.skill-category');
+        const skillContents = document.querySelectorAll('.skill-content');
+        
+        if (!skillCategories.length || !skillContents.length) return;
+
+        skillCategories.forEach(category => {
+            category.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                
+                // 更新激活状态
+                skillCategories.forEach(cat => cat.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 显示相应内容
+                skillContents.forEach(content => {
+                    if (content.getAttribute('id') === target) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+    
+    // 进度条初始化
+    function initProgressBars() {
+        const progressBars = document.querySelectorAll('.progress-bar');
+        if (!progressBars.length) return;
+        
+        // 检查元素是否在视口中
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
+        
+        // 应用进度条动画
+        function animateProgressBars() {
+            progressBars.forEach(bar => {
+                if (isInViewport(bar) && !bar.classList.contains('animated')) {
+                    const target = bar.getAttribute('data-progress');
+                    bar.style.width = target + '%';
+                    bar.classList.add('animated');
+                }
+            });
+        }
+        
+        // 监听滚动事件
+        window.addEventListener('scroll', animateProgressBars);
+        
+        // 初始调用
+        animateProgressBars();
+    }
+
+    // 时间线动画效果
+    function initRoadTimelineEffects() {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        if (!timelineItems.length) return;
+        
+        // 检查元素是否在视口中
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                rect.bottom >= 0
+            );
+        }
+        
+        // 应用动画
+        function animateTimelineItems() {
+            timelineItems.forEach((item, index) => {
+                if (isInViewport(item) && !item.classList.contains('visible')) {
+                    // 延迟动画，使各项依次显示
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }
+        
+        // 监听滚动事件
+        window.addEventListener('scroll', animateTimelineItems);
+        
+        // 初始调用
+        animateTimelineItems();
+    }
+
+    // 可访问性功能
+    function initAccessibility() {
+        // 键盘导航增强
+        const focusableElements = document.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        
+        focusableElements.forEach(element => {
+            // 添加焦点样式类
+            element.addEventListener('focus', () => {
+                element.classList.add('keyboard-focus');
+            });
+            
+            element.addEventListener('blur', () => {
+                element.classList.remove('keyboard-focus');
+            });
+            
+            // 区分鼠标和键盘导航
+            element.addEventListener('mousedown', () => {
+                element.classList.remove('keyboard-focus');
+            });
+        });
+        
+        // 添加跳转到主内容链接
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.className = 'skip-link';
+        skipLink.textContent = '跳转到主要内容';
+        document.body.insertBefore(skipLink, document.body.firstChild);
+    }
+    </script>
+   
+  
+    <script>
+        // 道路时间线视差滚动效果
+        function initRoadTimelineEffects() {
+            const timelineSection = document.getElementById('experience');
+            const timelineNodes = document.querySelectorAll('.timeline-node');
+            const roadPath = document.querySelector('.road-path');
+            const roadLights = document.querySelectorAll('.road-light');
+            
+            if (!timelineSection || !timelineNodes.length) return;
+            
+            // 检测设备是否为移动设备
+            const isMobile = window.innerWidth < 992;
+            
+            // 添加徽章点击功能（支持键盘和鼠标）
+            timelineNodes.forEach(node => {
+                // 点击时添加脉冲效果
+                node.addEventListener('click', function(e) {
+                    this.classList.add('node-pulse');
+                    
+                    // 如果点击的是移动设备，手动触发显示详情
+                    if (isMobile) {
+                        const details = this.nextElementSibling.nextElementSibling;
+                        if (details && details.classList.contains('node-details')) {
+                            // 使用类似开关的逻辑控制显示/隐藏
+                            if (details.style.visibility === 'visible') {
+                                details.style.opacity = '0';
+                                details.style.visibility = 'hidden';
+                                details.style.transform = 'scale(0.8) translateY(20px)';
+                            } else {
+                                // 先隐藏所有其他详情
+                                document.querySelectorAll('.node-details').forEach(d => {
+                                    if (d !== details) {
+                                        d.style.opacity = '0';
+                                        d.style.visibility = 'hidden';
+                                        d.style.transform = 'scale(0.8) translateY(20px)';
+                                    }
+                                });
+                                
+                                details.style.opacity = '1';
+                                details.style.visibility = 'visible';
+                                details.style.transform = 'scale(1) translateY(0)';
+                            }
+                        }
+                    }
+                    
+                    // 300ms后移除效果类
+                    setTimeout(() => {
+                        this.classList.remove('node-pulse');
+                    }, 300);
+                });
+                
+                // 让徽章支持键盘操作
+                node.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+            
+            if (isMobile) return; // 移动设备不应用复杂的视差效果
+            
+            // 滚动时的视差效果
+            function handleScroll() {
+                const sectionTop = timelineSection.getBoundingClientRect().top;
+                const scrollProgress = -sectionTop / 600; // 归一化滚动进度
+                
+                // 应用微妙的道路弯曲效果
+                if (roadPath) {
+                    const rotationDeg = 2 * Math.sin(scrollProgress);
+                    const translateX = 5 * Math.sin(scrollProgress);
+                    roadPath.style.transform = `translateX(${translateX}px)`;
+                }
+                
+                // 为光点应用视差效果
+                roadLights.forEach((light, index) => {
+                    const depthFactor = 1 + (index % 3) * 0.2; // 创建深度错觉
+                    const translateY = 8 * Math.sin(scrollProgress + index * 0.5) * depthFactor;
+                    light.style.transform = `translateX(-50%) translateY(${translateY}px)`;
+                });
+                
+                // 为每个节点应用轻微3D视差
+                timelineNodes.forEach((node, index) => {
+                    const nodeOffset = (index - 1) * 0.5;
+                    const rotationDeg = 3 * Math.sin(scrollProgress + nodeOffset);
+                    const translateY = 8 * Math.cos(scrollProgress + nodeOffset);
+                    const scale = 1 + 0.05 * Math.sin(scrollProgress + nodeOffset);
+                    
+                    node.style.transform = `translateX(-50%) rotateY(${rotationDeg}deg) translateY(${translateY}px) scale(${scale})`;
+                });
+            }
+            
+            // 添加防抖函数以优化性能
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                if (scrollTimeout) {
+                    window.cancelAnimationFrame(scrollTimeout);
+                }
+                scrollTimeout = window.requestAnimationFrame(handleScroll);
+            });
+            
+            // 初始调用一次
+            handleScroll();
+            
+            // 为徽章添加3D倾斜效果
+            timelineNodes.forEach(node => {
+                node.addEventListener('mousemove', function(e) {
+                    if (isMobile) return;
+                    
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // 鼠标在元素内的X坐标
+                    const y = e.clientY - rect.top; // 鼠标在元素内的Y坐标
+                    
+                    // 计算倾斜角度，使其保持在合理范围内
+                    const tiltX = ((y / rect.height) - 0.5) * 10; // 垂直方向倾斜
+                    const tiltY = ((0.5 - (x / rect.width)) * 10); // 水平方向倾斜
+                    
+                    // 应用3D变换，同时保持其他变换属性
+                    this.style.transform = `translateX(-50%) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.1)`;
+                    
+                    // 调整内部反光效果
+                    const reflection = this.querySelector('.node-reflection');
+                    if (reflection) {
+                        reflection.style.transform = `rotate(${25 + tiltY * 2}deg) translateY(${-10 + tiltX}%)`;
+                        reflection.style.opacity = '0.7';
+                    }
+                });
+                
+                // 鼠标离开时恢复原始状态
+                node.addEventListener('mouseleave', function() {
+                    if (isMobile) return;
+                    
+                    this.style.transform = 'translateX(-50%) rotateX(0) rotateY(0) scale(1)';
+                    const reflection = this.querySelector('.node-reflection');
+                    if (reflection) {
+                        reflection.style.transform = 'translateY(-50%) rotate(25deg)';
+                        reflection.style.opacity = '0.5';
+                    }
+                    
+                    // 重新应用滚动视差
+                    handleScroll();
+                    });
+                });
+        }
+        
+        // 添加无障碍支持
+        function initAccessibility() {
+            // 为详情面板添加键盘导航
+            const detailsPanels = document.querySelectorAll('.node-details');
+            
+            detailsPanels.forEach(panel => {
+                // 当面板可见时，捕获Escape键来关闭
+                panel.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && this.style.visibility === 'visible') {
+                        this.style.opacity = '0';
+                        this.style.visibility = 'hidden';
+                        this.style.transform = 'scale(0.8) translateY(20px)';
+                        
+                        // 焦点返回到对应的节点
+                        const nodeId = this.className.split(' ')[1].split('-')[1]; // 提取节点编号
+                        const node = document.querySelector(`.timeline-node.node-${nodeId}`);
+                        if (node) node.focus();
+                    }
+                });
+            });
+            
+            // 支持减少动画
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                // 移除所有动画
+                document.documentElement.style.setProperty('--animation-duration', '0s');
+                
+                // 停止所有动画
+                const animatedElements = document.querySelectorAll(
+                    '.road-light, .road-footprint, .node-connector, .timeline-node::before, .timeline-node::after'
+                );
+                
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                });
+            }
+        }
+    </script>
+   
+    <!-- 结尾视频区 -->
+    <section id="end-video" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-20 bg-transparent">
+        <!-- 背景渐变和粒子效果 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#FFE6E6]/70 via-[#E6F0FF]/70 to-[#F5F5F5]/70 opacity-80 z-0"></div>
+        <div id="video-bg-particles" class="absolute inset-0 z-1"></div>
+        <div class="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center">
+            <!-- 新增小彩蛋标题 -->
+            <h2 class="title text-3xl mb-1 text-center">小彩蛋</h2>
+            <!-- 电视感视频容器 -->
+            <div class="video-tv-box relative max-w-3xl w-full aspect-video flex items-center justify-center rounded-3xl overflow-hidden shadow-2xl bg-[#222]/80 border-4 border-[#f5f5f5]">
+                <!-- 玻璃反光 -->
+                <div class="absolute top-0 left-0 w-full h-1/4 pointer-events-none" style="background: linear-gradient(180deg,rgba(255,255,255,0.25),rgba(255,255,255,0.05) 80%,transparent 100%); z-index:2;"></div>
+                <!-- 视频播放器 -->
+                <video id="end-section-video" class="w-full h-full object-cover rounded-2xl bg-black" poster="images/video-poster.jpg" playsinline>
+                    <source src="images/shipin.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+                <!-- 极简控制条 -->
+                <div id="video-controls" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-6 bg-white/30 backdrop-blur-md rounded-full px-6 py-2 shadow-lg opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300 z-20">
+                    <!-- 新增进度条 -->
+                    <input id="video-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="进度条" class="h-2 w-48 md:w-64 accent-[#FFB6C1] bg-transparent rounded-full outline-none transition-all duration-200 cursor-pointer" />
+                    <button id="play-pause-btn" aria-label="播放/暂停" class="w-12 h-12 flex items-center justify-center rounded-full bg-white/60 hover:bg-white/80 shadow-md transition-all duration-200">
+                        <svg id="play-icon" class="w-7 h-7 text-[#2A2A2A]" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pause-icon" class="w-7 h-7 text-[#2A2A2A] hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                </div>
+            </div>
+            <!-- 文案（默认隐藏，播放完后淡入） -->
+            <div id="video-quote" class="text-center mt-12 select-none pointer-events-none opacity-0 transition-all duration-700 transform translate-y-8">
+                <p class="signature text-xl md:text-2xl font-handwriting text-[#2A2A2A] italic">
+                    "允许迷路，但绝不允许地图长出铁栏杆"
+                </p>
+                <div class="mx-auto mt-4 w-32 h-1 rounded-full bg-gradient-to-r from-[#FFB6C1] via-[#F5F5F5] to-[#89CFF0] opacity-60"></div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* 电视感视频容器立体效果 */
+        .video-tv-box {
+            box-shadow: 0 8px 32px 0 rgba(44,62,80,0.18), 0 1.5px 12px 0 rgba(255,182,193,0.10), 0 0.5px 0 #fff inset;
+            border-radius: 2rem;
+            border: 4px solid #f5f5f5;
+            background: #222b;
+            position: relative;
+        }
+        .video-tv-box::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -18px;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(255,182,193,0.18) 0%, rgba(44,62,80,0.10) 80%, transparent 100%);
+            filter: blur(2px);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        /* 控制条动画 */
+        #video-controls {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .video-tv-box:hover #video-controls,
+        #video-controls:focus-within {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .video-tv-box { max-width: 98vw; }
+            #video-quote p { font-size: 1.2rem; }
+        }
+        @media (max-width: 480px) {
+            .video-tv-box { border-radius: 1rem; }
+            #video-quote p { font-size: 1rem; }
+        }
+    </style>
+
+    <script>
+    // 视频播放与文案联动
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('end-section-video');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const quote = document.getElementById('video-quote');
+        const controls = document.getElementById('video-controls');
+        const progress = document.getElementById('video-progress');
+
+        if (!video || !playPauseBtn || !controls || !progress) return;
+
+        // 进度条同步
+        video.addEventListener('timeupdate', function() {
+            if (!isNaN(video.duration)) {
+                progress.value = (video.currentTime / video.duration) * 100;
+            }
+        });
+        video.addEventListener('loadedmetadata', function() {
+            progress.value = 0;
+        });
+        progress.addEventListener('input', function() {
+            if (!isNaN(video.duration)) {
+                video.currentTime = (progress.value / 100) * video.duration;
+            }
+        });
+
+        // 确保视频加载完成
+        video.addEventListener('loadedmetadata', function() {
+            controls.style.opacity = '1';
+            controls.style.pointerEvents = 'auto';
+        });
+
+        // 控制条显示逻辑
+        let controlsTimeout;
+        function showControls() {
+            clearTimeout(controlsTimeout);
+            controls.style.opacity = '1';
+            controls.style.pointerEvents = 'auto';
+        }
+        
+        function hideControls() {
+            if (!video.paused) {
+                controlsTimeout = setTimeout(() => {
+                    controls.style.opacity = '0';
+                    controls.style.pointerEvents = 'none';
+                }, 2000);
+            }
+        }
+
+        // 播放/暂停切换
+        function togglePlayPause() {
+            if (video.paused) {
+                video.play().catch(e => console.log('播放失败:', e));
+            } else {
+                video.pause();
+            }
+        }
+
+        function updatePlayBtn() {
+            if (video.paused) {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            } else {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            }
+        }
+
+        // 点击视频任意位置播放/暂停
+        video.addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePlayPause();
+        });
+
+        // 播放按钮点击事件
+        playPauseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePlayPause();
+        });
+
+        // 空格键控制
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && document.activeElement !== playPauseBtn) {
+                e.preventDefault();
+                togglePlayPause();
+            }
+        });
+
+        // 视频状态变化事件
+        video.addEventListener('play', function() {
+            updatePlayBtn();
+            quote.style.opacity = '0';
+            quote.style.transform = 'translateY(8px)';
+            hideControls();
+        });
+
+        video.addEventListener('pause', function() {
+            updatePlayBtn();
+            showControls();
+        });
+
+        video.addEventListener('ended', function() {
+            updatePlayBtn();
+            showControls();
+            quote.style.opacity = '1';
+            quote.style.transform = 'translateY(0)';
+        });
+
+        // 鼠标移动显示/隐藏控制条
+        let mouseTimeout;
+        video.parentElement.addEventListener('mousemove', function() {
+            showControls();
+            clearTimeout(mouseTimeout);
+            mouseTimeout = setTimeout(hideControls, 2000);
+        });
+
+        // 移动端触摸控制
+        let touchTimeout;
+        video.parentElement.addEventListener('touchstart', function() {
+            showControls();
+            clearTimeout(touchTimeout);
+            touchTimeout = setTimeout(hideControls, 2000);
+        });
+
+        // 初始状态
+        quote.style.opacity = '0';
+        quote.style.transform = 'translateY(8px)';
+        updatePlayBtn();
+    });
+    // 粒子背景（可选，提升艺术感）
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.particlesJS) {
+            particlesJS('video-bg-particles', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": ["#FFB6C1", "#89CFF0", "#F4A460"]
+                    },
+                    "shape": {
+                        "type": "circle"
+                    },
+                    "opacity": {
+                        "value": 0.15,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.05,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#FFB6C1",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "bubble"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "bubble": {
+                            "distance": 150,
+                            "size": 4,
+                            "duration": 2,
+                            "opacity": 0.8,
+                            "speed": 3
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+    });
+    </script>
+
+</body>
+</html>
+  <!-- 联系方式 -->
+  <section id="contact" class="py-20 bg-white/30">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="title text-3xl mb-8">与我联系</h2>
+        <div class="flex flex-col items-center space-y-4">
+            <a href="mailto:1604569059@qq.com" class="contact-link group flex items-center space-x-2 px-6 py-3 bg-white/80 rounded-full shadow-sm hover:shadow-md transition-all duration-300">
+                <svg class="w-5 h-5 text-gray-600 group-hover:text-[#89CFF0]" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+                <span class="text-gray-600 group-hover:text-[#89CFF0]">1604569059@qq.com</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 在body的最底部添加鼠标跟随元素和初始化脚本 -->
+<div class="cursor-glow"></div>
+   
